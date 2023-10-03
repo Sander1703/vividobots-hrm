@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Apply Resignation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style2.css') }}">
+    <style>
+        .banner {
+            background-image: url("{{ url_for('static', filename='images/bg.jpg') }}");
+        }
+    </style>
+    <script>
+        // Calculate the minimum date for resignation to be 30 days from today
+        var today = new Date();
+        var minDate = new Date(today);
+        minDate.setDate(minDate.getDate() + 30);
+        var formattedMinDate = minDate.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+
+        window.onload = function() {
+            // Set the minimum date for the resignation_date input field
+            document.getElementById("resignation_date").setAttribute("min", formattedMinDate);
+        };
+    </script>
+</head>
+
+<body>
+    <div class="banner">
+        <div class="navbar">
+            <div class="nav">
+                <img src="{{ url_for('static', filename='images/icon.png') }}" class="icon">
+                <img src="{{ url_for('static', filename='images/name.png') }}" class="icon2">
+            </div>
+            <div> {% if current_user.role == 'HR' %}
+                <a href="{{ url_for('hr_again', user_id=user.id) }}">
+                    <button class="submit">BACK</button>
+                </a>
+                {% elif current_user.role == 'Department Head' %}
+                <a href="{{ url_for('hr_again', user_id=user.id) }}">
+                    <button class="submit">BACK</button>
+                </a>
+                {% else %}
+                <a href="{{ url_for('employee_again', user_id=user.id) }}">
+                    <button class="submit">BACK</button>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="container mt-4">
+            <h1 class="content">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Apply Resignation</h1>
+            <div style="position: relative; left:500px; top:40px;">
+                <form class="form-reg" method="POST" action="{{ url_for('apply_resignation', user_id=user.id) }}">
+                    <div class="input-fields1">
+
+                        <label class="text" for="eid">Employee ID:</label>
+                        <input class="ip1" type="text" id="eid" name="eid" size="50" value="{{ user.eid }}" disabled><br><br><br><br>
+                        <label class="text" for="resignation_date">Resignation Date:</label>
+                        <input class="ip1" type="date" class="form-control" id="resignation_date" name="resignation_date" required>
+                        <br><br>
+                        <button type="submit" class="button2 button-china" onclick="confirmSubmit()">Submit</button>
+                        <script>
+function confirmSubmit() {
+    var userInput = prompt("Are you sure to EXIT the company? if yes ,type "confirm".");
+
+    if (userInput === 'confirm') {
+        var confirmation = confirm("Are you sure you want to submit?");
+
+        if (confirmation) {
+            // If user confirms, return true to allow form submission
+            return true;
+        } else {
+            // If user cancels, return false to prevent form submission
+            return false;
+        }
+    } else {
+        // If user input doesn't match, return false to prevent form submission
+        return false;
+    }
+}
+</script>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Management System - Add Employee</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/l.css') }}">
+    <style>
+        .banner {
+            background-image: url("{{ url_for('static', filename='images/bg.jpg') }}");
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="banner">
+        <div class="navbar">
+            <div class="nav">
+                <img src="{{ url_for('static', filename='images/icon.png') }}" class="icon">
+                <img src="{{ url_for('static', filename='images/name.png') }}" class="icon2">
+            </div>
+            <div>  {% if current_user.role == 'HR' %}
+            <a href="{{ url_for('hr_again', user_id=user.id) }}" >
+    <button class="submit">BACK</button>
+</a>
+        {% elif current_user.role == 'Department Head' %}
+        <a href="{{ url_for('hr_again', user_id=user.id) }}">
+    <button class="submit">BACK</button>
+</a>
+        {% else %}
+        <a href="{{ url_for('employee_again', user_id=user.id) }}">
+    <button class="submit">BACK</button>
+</a>
+        {% endif %}</div>
+            </div>
+
+    <h1 class="content">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EMPLOYEE <h1 class="content-bots">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DETAILS</h1></h1>
+
+<div class="tablebox">
+<div style="position: relative; left:40px; top:35px;">
+    <form action="{{ url_for('add_employee', user_id=user.id) }}"  method="post" class="form">
+        <div class="input-fields1">
+            <label class="text" for="name">NAME:</label>
+            <input class="ip1" type="text" size="50" id="name" name="name" value="{{ user.name }}" required><br><br>
+
+            <label class="text" for="eid">EMPLOYEE-ID:
+                <div>{{ user.eid }}</div></label>
+         <input  class="ip1" size="50" type="hidden" id="eid" name="eid" value="{{ user.eid }}">
+
+
+            <label class="text" for="contactNo">CONTACT NUMBER.:</label>
+            <input class="ip1" type="text" size="50" id="contactNo" name="contactNo" value="{{ user.contactNo }}"
+                required><br><br>
+
+            <label class="text" for="email">EMAIL-ID:</label>
+            <input class="ip1" type="email" size="50" id="email" name="email"  value="{{ user.email }}" required><br><br><br>
+
+            <label class="text" for="address">ADDRESS:</label>
+            <input class="ip1" type="textarea" size="50" id="address" name="address"  value="{{ user.address }}" required><br><br>
+
+            <label class="text" for="dob">DATE OF BIRTH:</label>
+            <input class="ip1" size=50 type="text" id="dob" name="dob" value="{{ user.dob }}" required><br><br>
+<label class="text" for="department">Department:</label>
+            <input class="ip1" type="text" id="department" name="department" value="{{ user.department }}" required><br><br>
+            <label class="text" for="designation">DESIGNATION:</label>
+            <input class="ip1" type="text" id="designation" name="designation" value="{{ user.designation }}" required><br><br>
+           <label class="text" for="blood">BLOOD GROUP:</label>
+<select class="ip1" id="blood" name="blood" required>
+    <option value="{{ user.blood }}" selected>{{ user.blood }}</option>
+    <option value="A+">A+</option>
+    <option value="A-">A-</option>
+    <option value="B+">B+</option>
+    <option value="B-">B-</option>
+    <option value="AB+">AB+</option>
+    <option value="AB-">AB-</option>
+    <option value="O+">O+</option>
+    <option value="O-">O-</option>
+</select><br><br>
+
+            <label class="text" for="team_leader_id">TEAM LEADER ID:</label>
+<select class="ip1" id="team_leader_id" name="team_leader_id" onchange="updateSupervisorName(this.value)">
+    <option value="">SELECT YOUR DEPARTMENT HEAD</option>
+    {% for department_head in department_heads %}
+        <option value="{{ department_head.eid }}">{{ department_head.eid }}</option>
+    {% endfor %}
+</select><br><br>
+            <input type="hidden" id="supervisor_name_hidden" name="supervisor_name" value="">
+
+
+<input type="submit" value="Submit" onclick="showSuccessAlert()">
+        </div>
+    </form>
+</div></div>
+
+    <script>
+        function return_hr() {
+            window.location.href = "/hr_again";
+        }
+        function return_dh() {
+            window.location.href = "/dh_again";
+        }
+        function return_employee() {
+            window.location.href = "/employee_again";
+        }
+        function showSuccessAlert() {
+        alert("Success! Details edited successfully.");
+    }
+    var departmentHeads = {
+        {% for department_head in department_heads %}
+            "{{ department_head.eid }}": "{{ department_head.name }}",
+        {% endfor %}
+    };
+
+    function updateSupervisorName(eid) {
+        var supervisorName = departmentHeads[eid] || "";
+        document.getElementById("supervisor_name_hidden").value = supervisorName;
+    }
+    </script>
+</body>
+</html>

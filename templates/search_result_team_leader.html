@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+     <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .banner {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .icon {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+        .icon2 {
+            width: 120px;
+        }
+        .submit {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .content {
+            margin-top: 20px;
+        }
+        .tablebox {
+            overflow-x: auto;
+        }
+        .table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .th, .td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .th {
+            background-color: #f2f2f2;
+        }
+        .tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .tr:hover {
+            background-color: #ddd;
+        }
+        .no-results {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <div class="navbar">
+            <div class="nav">
+                <img src="{{ url_for('static', filename='images/icon.png') }}" class="icon">
+                <img src="{{ url_for('static', filename='images/name.png') }}" class="icon2">
+            </div>
+            {% if current_user.role == 'HR' %}
+                <a href="{{ url_for('hr_again', user_id=user.id) }}">
+                    <button class="submit">BACK</button>
+                </a>
+            {% elif current_user.role == 'Department Head' %}
+                <a href="{{ url_for('hr_again', user_id=user.id) }}">
+                    <button class="submit">BACK</button>
+                </a>
+            {% else %}
+                <a href="{{ url_for('employee_again', user_id=user.id) }}">
+                    <button class="submit">BACK</button>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <h1 class="content">Search Results</h1>
+    <h2>Team Leader ID: {{ team_leader_id }}</h2>
+    {% if employees %}
+        <div style="overflow-x: auto;">
+            <div class="tablebox">
+                <table class="table">
+                    <thead>
+                        <tr class="tr">
+                            <th class="th">Name</th>
+                            <th class="th">Employee-ID:</th>
+                            <th class="th">Department</th>
+                            <th class="th">Email</th>
+                            <th class="th">Contact-No</th>
+                            <th class="th">Supervisor ID</th>
+                            <th class="th">Address</th>
+                            <th class="th">Blood</th>
+                            <th class="th">Team Leader</th>
+                            <th class="th">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for employee in employees %}
+                        <tr>
+                            <td>{{ employee.name }}</td>
+                            <td>{{ employee.eid }}</td>
+                            <td>{{ employee.department }}</td>
+                            <td>{{ employee.email }}</td>
+                            <td>{{ employee.contactNo }}</td>
+                            <td>{{ employee.supervisor_id }}</td>
+                            <td>{{ employee.address }}</td>
+                            <td>{{ employee.blood }}</td>
+                            <td>{{ employee.team_leader_id }}</td>
+                            <td>{{ employee.status }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% else %}
+        <p>No employees found under the specified Team Leader ID.</p>
+    {% endif %}
+</body>
+</html>

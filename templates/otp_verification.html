@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OTP Verification</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/new.css') }}">
+    <style>
+        .banner {
+            background-image:
+            url("{{ url_for('static', filename='images/bg.jpg') }}");
+        }
+    </style>
+</head>
+<body>
+  <div class="banner">
+   <div class="navbar">
+    <div class="nav">
+        <img src="{{ url_for('static', filename='images/icon.png') }}" class="icon">
+                       <img src="{{ url_for('static', filename='images/name.png') }}" class="icon2">
+    </div>
+   </div>
+<div style="margin-left: 13px; margin-right: 17px; margin-top: 8%;">
+<div class="bg">
+    <form method="post" class="form-otp" action="/verify_otp/{{ eid }}">
+        <div class="input-fields">
+        <p class="ip1">An OTP has been sent to your email. Please enter the OTP below:</p><br><br>
+        <label class="text" for="otp">Enter OTP:</label>
+        <input type="text" class="ip1" id="otp" name="otp" required><br><br>
+            <div class="button-container">
+                <button type="submit" class= "button button-china">Verify</button></div>
+    </form></div></div></div>
+</body>
+</html>

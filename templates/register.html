@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/new.css') }}">
+    <style>
+        .banner {
+            background-image: url("{{ url_for('static', filename='images/bg.jpg') }}");
+        }
+    </style>
+</head>
+
+<body>
+    <div class="banner">
+        <div class="navbar">
+            <div class="nav">
+                <img src="{{ url_for('static', filename='images/icon.png') }}" class="icon">
+                <img src="{{ url_for('static', filename='images/name.png') }}" class="icon2">
+            </div>
+            <div> {% if current_user.role == 'HR' %}
+                <a href="{{ url_for('hr_again', user_id=user.id) }}">
+                    <button class="submit">BACK</button>
+                </a>
+                {% elif current_user.role == 'Department Head' %}
+                <a href="{{ url_for('hr_again', user_id=user.id) }}">
+                    <button class="submit">BACK</button>
+                </a>
+                {% else %}
+                <a href="{{ url_for('employee_again', user_id=user.id) }}">
+                    <button class="submit">BACK</button>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+   
+
+    <div class="content1">
+        <h1 style=" margin-top: -1%; text-transform: uppercase;">&nbsp; &nbsp;&nbsp;&nbsp; <br>Register</h1>
+    </div>
+
+    {% if error %}
+    <p style="color: red;">Username already exists.</p>
+    {% endif %}
+
+    <div style="position: relative; left:40px; top:150px;">
+        <form class="form-register" method="POST" action="/register">
+            <div class="input-fields1">
+                <label class="text" for="eid">EMPLOYEE ID:</label>
+                <input class="ip1" type="text" id="eid" name="eid" required><br><br>
+
+                <label class="text" for="email">EMAIL-ID:</label>
+                <input class="ip1" type="email" name="email" id="email" required><br><br>
+
+                <label class="text" for="role">ROLE:</label>
+                <select id="role" name="role" required>
+                    <option value="HR">HR</option>
+                    <option value="Department Head">Department Head</option>
+                    <option value="Employee">Employee</option>
+                </select>
+                <input type="hidden" id="generatedPassword" name="generatedPassword" value="">
+    <input class="button1 button-china" type="submit" value="Register" onclick="prepareAndSubmitForm()">
+            </div>
+    </div>
+    </form>
+    </div>
+    <script> function showSuccessAlert() {
+            alert("Success! Employee created successfully.");
+        }
+        function generateRandomPassword(length) {
+    const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let password = "";
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * charset.length);
+        password += charset.charAt(randomIndex);
+    }
+    return password;
+}
+
+function showSuccessAlert() {
+    const password = generateRandomPassword(10);
+    alert("Success! Employee created successfully.");
+}
+function prepareAndSubmitForm() {
+        const password = generateRandomPassword(10);
+        document.getElementById("generatedPassword").value = password;
+        showSuccessAlert();
+    }
+        </script>
+        </div>
+</body>
+
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Employee Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
+    <style>
+        .banner {
+            background-image: url("{{ url_for('static', filename='images/bg.jpg') }}");
+        }
+        .form-table {
+        display: block;
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+    }
+
+    .form-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .form-label {
+        flex: 1;
+        font-weight: bold;
+        color: gold; /* Title color in gold */
+    }
+
+    .form-value {
+        flex: 2;
+        padding: 5px;
+        border: 2px solid silver; /* Border color in silver */
+        border-radius: 4px;
+        background-color: silver; /* Background color in silver */
+        color: black; /* Text color in white */
+        box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.3); /* Subtle white shadow */
+    }
+    </style>
+</head>
+
+<body>
+    <class class="banner">
+        <div class="navbar">
+            <div class="nav">
+                <img src="{{ url_for('static', filename='images/icon.png') }}" class="icon">
+                <img src="{{ url_for('static', filename='images/name.png') }}" class="icon2">
+            </div>
+            <input class="submit" type="button" value="HR REQUEST" onclick="hr_leave_request()">
+            <input class="submit" type="button" value="YOUR DH APPROVAL" onclick="DH_leave_request()">
+            <input class="submit" type="button" value="LEAVE" onclick="leaveform()">
+            <input class="submit" type="button" value="APPROVED" onclick="approve_leave()">
+            <input class="submit" type="button" value="SEARCH" onclick="hr_search()">
+            <input class="submit" type="button" value="VIVIDIANS" onclick="everysearch()">
+            <input class="submit" type="button" value="LOGOUT" onclick="logout()" style="background-color: darkred; color: white;">
+
+          {% if employee.resign == True %}
+    <form action="{{ url_for('apply_resignation', user_id=employee.id) }}" method="get">
+        <button type="submit" class="submit1">RESIGN</button>
+    </form>
+{% endif %}
+
+
+        </div>
+
+        <h1 class="content">VIVIDO <h1 class="content-bots">BOTS<h1 class="content-xtra">HR CONSOLE</h1></h1></h1>
+         <br><br><br><br><br><br><br><br>
+        <div style="margin-left: 1px; margin-right: 17px">
+            <div class="tablebox">
+                <div class="form-table">
+    <div class="form-row">
+        <span class="form-label">NAME</span>
+        <span class="form-value">{{ employee.name }}</span>
+    </div>
+    <div class="form-row">
+        <span class="form-label">EMPLOYEE-ID</span>
+        <span class="form-value">{{ employee.eid }}</span>
+    </div>
+    <div class="form-row">
+        <span class="form-label">DESIGNATION</span>
+        <span class="form-value">{{ employee.designation }}</span>
+    </div>
+    <div class="form-row">
+        <span class="form-label">DEPARTMENT</span>
+        <span class="form-value">{{ employee.department }}</span>
+    </div>
+   <div class="form-row">
+        <span class="form-label">TEAM LEADER-ID</span>
+        <span class="form-value">{{ employee.team_leader_id }}</span>
+    </div>
+   <div class="form-row">
+        <span class="form-label">TEAM LEADER NAME</span>
+        <span class="form-value">{{ employee.supervisor_id }}</span>
+    </div>
+   <div class="form-row">
+        <span class="form-label">ADDRESS</span>
+        <span class="form-value">{{ employee.address  }}</span>
+    </div>
+   <div class="form-row">
+        <span class="form-label">CONTACT-NO</span>
+        <span class="form-value">{{ employee.contactNo }}</span>
+    </div>
+    <div class="form-row">
+        <span class="form-label">EMAIL-ID</span>
+        <span class="form-value">{{ employee.email }}</span>
+    </div>
+   <div class="form-row">
+        <span class="form-label">DATE OF BIRTH</span>
+        <span class="form-value">{{ employee.dob }}</span>
+    </div>
+    <div class="form-row">
+        <span class="form-label">LEAVE BALANCE</span>
+        <span class="form-value">{{ employee.totaldays }}</span>
+    </div>
+    <div class="form-row">
+        <span class="form-label">STATUS</span>
+        <span class="form-value">{{ "EXIT" if employee.status == 'exit' else "ACTIVE" }}</span>
+    </div>
+    <div class="form-row">
+        <form action="{{ url_for('add_employee', user_id=employee.id) }}" method="post">
+            <button type="submit" class="submit" style="display: block; margin: 0 auto; width: 200px;">Edit</button>
+        </form>
+        <input class="submit" type="button" value="REGISTER NEW" onclick="REGISTER()" style="display: block; margin: 0 auto; width: 200px;">
+
+    </div>
+</div></div>
+        </div></class>
+        <script>
+            function logout() {
+                window.location.href = "/logout";
+            }
+            function leaveform() {
+                window.location.href = "/req";
+            }
+            function approve_leave() {
+                window.location.href = "/leave";
+            }
+            function hr_leave_request() {
+                window.location.href = "/hr_leave_requests";
+            }
+            function DH_leave_request() {
+                window.location.href = "/department_leave_requests";
+            }
+
+            function hr_search() {
+                window.location.href = "/search";
+            }
+            function everysearch() {
+                window.location.href = "/everysearch";
+            }
+            function REGISTER() {
+                window.location.href = "/register";
+            }
+        </script>
+</body>
+
+</html>

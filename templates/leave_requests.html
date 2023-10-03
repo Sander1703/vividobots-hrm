@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leave Requests</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style2.css') }}">
+    <style>
+        .banner {
+            background-image: url("{{ url_for('static', filename='images/bg.jpg') }}");
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <div class="navbar">
+            <div class="nav">
+                <img src="{{ url_for('static', filename='images/icon.png') }}" class="icon">
+                               <img src="{{ url_for('static', filename='images/name.png') }}" class="icon2">
+            </div>
+            {% if current_user.role == 'HR' %}
+            <a href="{{ url_for('hr_again', user_id=user.id) }}" >
+    <button class="submit">BACK</button>
+</a>
+        {% elif current_user.role == 'Department Head' %}
+        <a href="{{ url_for('hr_again', user_id=user.id) }}">
+    <button class="submit">BACK</button>
+</a>
+        {% else %}
+        <a href="{{ url_for('employee_again', user_id=user.id) }}">
+    <button class="submit">BACK</button>
+</a>
+        {% endif %}
+    </div>
+
+     <h1 class="content">&nbsp; &nbsp; LEAVE <h1 class="content-bots">&nbsp; &nbsp; &nbsp;REQUESTS</h1></h1><br><br><br><br>
+    <div style="margin-left: 1px; margin-right: 17px;">
+    <div class="tablebox">
+    <table class="table" action="/leave" >
+        <tr class="tr">
+            <th class="th">E.Id</th><br>
+            <th class = "th">Name</th><br>
+            <th class = "th">Start Date</th><br>
+            <th class = "th">End Date</th><br>
+            <th class = "th">Reason</th><br>
+            <th class = "th">Number of days</th>
+            <th class = "th">Approved by HR</th><br>
+            <th class = "th">Approved by Department Head</th><br>
+        </tr>
+        {% for leave_request in leave_requests %}
+        <tr>
+            <td class="th1">{{ leave_request.eid }}</td><br>
+            <td class="th1">{{ leave_request.name }}</td><br>
+            <td class="th1">{{ leave_request.start_date }}</td><br>
+            <td class="th1">{{ leave_request.end_date }}</td><br>
+            <td class="th1">{{ leave_request.reason }}</td><br>
+            <td class="th1">{{leave_request.noofdays}}</td>
+            <td class="th1">
+      {% if leave_request.approved_by_hr %}
+        APPROVED
+      {% else %}
+        PENDING
+      {% endif %}
+    </td>
+    <td class="th1">
+      {% if leave_request.approved_by_department_head %}
+        APPROVED
+      {% else %}
+        PENDING
+      {% endif %}
+    </td>
+        </tr>
+
+        {% endfor %}
+    </table></div>
+        </div></div>
+</body>
+</html>

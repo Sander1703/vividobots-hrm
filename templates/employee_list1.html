@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Employee Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style2.css') }}">
+    <style>
+        .banner {
+            background-image: url("{{ url_for('static', filename='images/bg.jpg') }}");
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        <div class="navbar">
+            <div class="nav">
+                <img src="{{ url_for('static', filename='images/icon.png') }}" class="icon">
+                <img src="{{ url_for('static', filename='images/name.png') }}" class="icon2">
+            </div>
+            {% if current_user.role == 'HR' %}
+            <a href="{{ url_for('hr_again', user_id=user.id) }}">
+                <button class="submit">BACK</button>
+            </a>
+            {% elif current_user.role == 'Department Head' %}
+            <a href="{{ url_for('hr_again', user_id=user.id) }}">
+                <button class="submit">BACK</button>
+            </a>
+            {% else %}
+            <a href="{{ url_for('employee_again', user_id=user.id) }}">
+                <button class="submit">BACK</button>
+            </a>
+            {% endif %}
+
+        </div>
+         <h1 class="content">VIVIDO <h1 class="content-bots">BOTS<h1 class="content-xtra">EMPLOYEES</h1></h1></h1>
+
+        <div style="margin-left: 1px; margin-right: 17px; margin-top:13%;">
+            <div class="tablebox">
+                <table class="table" action="/everysearch">
+                    <thead>
+                        <tr class="tr">
+                            <th class="th">Name</th>
+                            <th class="th">Employee-ID:</th>
+                            <th class="th">Designation</th>
+                            <th class="th">Role</th>
+                            <th class="th">Team Leader ID</th>
+                            <th class="th">Team Leader Name</th>
+                            <th class="th">Address</th>
+                            <th class="th">Blood</th>
+                            <th class="th">Contact-No</th>
+                            <th class="th">Date Of Birth</th>
+                            <th class="th">Email</th>
+                            <th class="th">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for employee in employees %}
+                        <tr class="tr">
+                            <td class="th1">{{ employee.name }}</td>
+                            <td class="th1">{{ employee.eid }}</td>
+                            <td class="th1">{{ employee.department }}</td>
+                            <td class="th1">{{ employee.role }}</td>
+                            <td class="th1">{{ employee.team_leader_id }}</td>
+                            <td class="th1">{{ employee.supervisor_id }}</td>
+                            <td class="th1">{{ employee.address }}</td>
+                            <td class="th1">{{ employee.blood }}</td>
+                            <td class="th1">{{ employee.contactNo }}</td>
+                            <td class="th1">{{ employee.dob }}</td>
+                            <td class="th1">{{ employee.email }}</td>
+                            <td class="th1">{{ "EXIT" if employee.status == 'exit' else "ACTIVE" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
